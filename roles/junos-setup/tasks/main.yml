@@ -1,0 +1,34 @@
+---
+# tasks file for junos-setup
+
+- name: Install base packages for Junos Automation setup
+  package: 
+    name: "{{ item }}"
+    state: present
+  become: True
+  with_items:
+    - build-essential
+    - libffi-dev 
+    - libxslt-dev 
+    - libssl-dev
+    
+- name: Install python packages
+  package:
+    name:  "{{ item }}"
+    state: present 
+  become: True
+  with_items:
+    - python 
+    - python-dev
+    - python-pip
+
+- name: install pyEZ and jmxlease using pip
+  pip:
+    name: ['junos-eznc', 'jxmlease']
+  become: True
+
+- name: install ansible-galaxy role for junos
+  shell: ansible-galaxy install Juniper.junos
+  become: True
+  args:
+    executable: /bin/bash

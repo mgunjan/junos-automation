@@ -1,0 +1,51 @@
+# Staging for Junos Automation 
+
+## Setting Up Ansible Host Machine for Junos Automation 
+    
+  * Install  software build tools, and related packages: 
+   ```
+     $ sudo apt-get install openssh-client build-essential
+     $ sudo apt-get install libffi-dev libxslt-dev libssl-dev
+     ```
+   * Install the Python language and the Python package manager (pip): 
+     ```
+     $ sudo apt-get install python python-dev python-pip
+     ```
+   * Now use pip to install Ansible and PyEZ (junos-eznc): 
+     ```     
+     $ sudo pip install junos-eznc
+     ```
+   * Finally, add Juniper's Galaxy modules to Ansible: 
+     ```
+     $ sudo ansible-galaxy install Juniper.junos
+     $ sudo pip install jxmlease
+     ```        
+   
+## Setting done on Junos side to enable NETCONF
+        
+* Enable NETCONF on Junos
+```  
+      $ ssh root@10.187.162.252
+        Password:
+        --- JUNOS 14.1X53-D35.3 built 2016-02-29 23:35:46 UTC
+        
+        root@RR2718_RU37:RE:0% configure
+        configure: Command not found.
+        root@RR2718_RU37:RE:0% cli
+        {master:0}
+        
+        root@RR2718_RU37> configure
+        Entering configuration mode
+        
+        {master:0}[edit]
+        
+        root@RR2718_RU37# set system services netconf ssh
+        
+        {master:0}[edit]
+        root@RR2718_RU37# commit
+        [edit protocols]
+          'bgp'
+            warning: requires 'bgp' license
+        configuration check succeeds
+         commit complete
+```
